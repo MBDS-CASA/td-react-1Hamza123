@@ -17,6 +17,13 @@ function MainContent() {
       <p>Ici, nous afficherons des informations intéressantes :)</p>
   );
 }
+function Footer({ Nom,Prenom }) {
+  return (
+    <footer style={{ textAlign: 'center', marginTop: '50px' }}>
+      <p>Tous droits réservés - {Nom} {Prenom}</p>
+    </footer>
+  );
+}
 
 function App() {
   const [count, setCount] = useState(0)
@@ -26,7 +33,6 @@ function App() {
       <div>
         <Header/>
         <MainContent/>
-        
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -46,6 +52,8 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <Footer Nom="Rzama" Prenom="Hamza" />
+
     </>
   )
 }

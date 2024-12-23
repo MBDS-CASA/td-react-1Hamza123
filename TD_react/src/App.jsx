@@ -1,18 +1,82 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
 import data from './data.json';
-
-
 
 function Header() {
   return (
     <header>
-      <img src="https://emsi.ma/wp-content/uploads/2020/07/logo-1.png" alt="Logo de votre formation" style={{ maxWidth:'100%',height: 'auto' }} />
+      <img src="https://emsi.ma/wp-content/uploads/2020/07/logo-1.png" alt="Logo de votre formation" style={{ maxWidth: '100%', height: 'auto' }} />
       <h1>Introduction à React</h1>
       <h2>A la découverte des premières notions de React</h2>
     </header>
+  );
+}
+
+function Menu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClick = (text) => {
+    alert(`Vous avez cliqué sur: ${text}`);
+  };
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <button
+        onClick={toggleMenu}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          padding: '10px',
+          fontSize: '16px',
+          cursor: 'pointer',
+          zIndex: 1000,
+        }}
+      >
+        ☰
+      </button>
+      {isOpen && (
+        <nav
+          style={{
+            position: 'absolute',
+            top: '50px',
+            left: '10px',
+            backgroundColor: '#fff',
+            border: '1px solid #ccc',
+            borderRadius: '8px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            padding: '10px',
+            zIndex: 999,
+          }}
+        >
+          <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+            {['Notes', 'Etudiants', 'Matières', 'A propos'].map((item) => (
+              <li key={item} style={{ marginBottom: '10px' }}>
+                <button
+                  onClick={() => handleClick(item)}
+                  style={{
+                    padding: '10px',
+                    fontSize: '16px',
+                    cursor: 'pointer',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    textAlign: 'left',
+                  }}
+                >
+                  {item}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+    </div>
   );
 }
 
@@ -42,26 +106,19 @@ const getRandomItem = (items) => {
   return items[randomIndex];
 };
 
-
-
-
 const RandomItemDisplay = () => {
   const [randomItem, setRandomItem] = useState(getRandomItem(data));
-
   const handleGenerateNewItem = () => {
     setRandomItem(getRandomItem(data));
   };
-
   return (
     <div className="container" style={{ padding: '20px', textAlign: 'center' }}>
       <h1 style={{ marginBottom: '20px' }}>Détail de l'élément</h1>
       <div className="item-card" style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px' }}>
-        <p><strong>ID Unique:</strong> {randomItem.unique_id}</p>
         <p><strong>Cours:</strong> {randomItem.course}</p>
         <p><strong>Prénom:</strong> {randomItem.student.firstname}</p>
         <p><strong>Nom:</strong> {randomItem.student.lastname}</p>
         <p><strong>ID Étudiant:</strong> {randomItem.student.id}</p>
-        <p><strong>Date:</strong> {randomItem.date}</p>
         <p><strong>Note:</strong> {randomItem.grade}</p>
       </div>
       <button
@@ -74,19 +131,15 @@ const RandomItemDisplay = () => {
   );
 };
 
-
-
-
-
-
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <>
+      <Menu />
       <div>
-        <Header/>
-        <MainContent/>
+        <Header />
+        <MainContent />
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -99,9 +152,8 @@ function App() {
       </p>
       <RandomItemDisplay />
       <Footer Nom="Rzama" Prenom="Hamza" />
-
     </>
-  )
+  );
 }
 
-export default App
+export default App;

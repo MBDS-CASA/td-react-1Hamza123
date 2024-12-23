@@ -13,8 +13,15 @@ function Header() {
   );
 }
 function MainContent() {
+  const currentDate = new Date();
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const formattedDate = currentDate.toLocaleDateString('fr-FR', options);
+  const time = currentDate.toLocaleTimeString('fr-FR');
+
   return (
-      <p>Ici, nous afficherons des informations intéressantes :)</p>
+    <p>
+      Bonjour, on est le {formattedDate} et il est {time}.
+    </p>
   );
 }
 function Footer({ Nom,Prenom }) {

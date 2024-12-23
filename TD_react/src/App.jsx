@@ -24,10 +24,11 @@ function MainContent() {
     </p>
   );
 }
-function Footer({ Nom,Prenom }) {
+function Footer({ Nom, Prenom }) {
+  const currentYear = new Date().getFullYear();
   return (
     <footer style={{ textAlign: 'center', marginTop: '50px' }}>
-      <p>Tous droits réservés - {Nom} {Prenom}</p>
+      <p>© {currentYear} - {Prenom}.{Nom}, Tous droits réservés.</p>
     </footer>
   );
 }

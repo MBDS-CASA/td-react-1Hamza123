@@ -14,12 +14,8 @@ function Header() {
   );
 }
 
-function Menu() {
+function Menu({ items, activeItem, onMenuClick }) {
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleClick = (text) => {
-    alert(`Vous avez cliqué sur: ${text}`);
-  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -56,15 +52,15 @@ function Menu() {
           }}
         >
           <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
-            {['Notes', 'Etudiants', 'Matières', 'A propos'].map((item) => (
+            {items.map((item) => (
               <li key={item} style={{ marginBottom: '10px' }}>
                 <button
-                  onClick={() => handleClick(item)}
+                  onClick={() => onMenuClick(item)}
                   style={{
                     padding: '10px',
                     fontSize: '16px',
                     cursor: 'pointer',
-                    backgroundColor: 'transparent',
+                    backgroundColor: item === activeItem ? '#ddd' : 'transparent',
                     border: 'none',
                     textAlign: 'left',
                   }}
@@ -80,16 +76,50 @@ function Menu() {
   );
 }
 
-function MainContent() {
+function Notes() {
+  return <div>Contenu du menu: Notes</div>;
+}
+
+function Etudiants() {
+  return <div>Contenu du menu: Etudiants</div>;
+}
+
+function Matieres() {
+  return <div>Contenu du menu: Matières</div>;
+}
+
+function APropos() {
+  return <div>Contenu du menu: À propos</div>;
+}
+
+function DateDisplay() {
   const currentDate = new Date();
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const formattedDate = currentDate.toLocaleDateString('fr-FR', options);
   const time = currentDate.toLocaleTimeString('fr-FR');
+
   return (
-    <p>
-      Bonjour, on est le {formattedDate} et il est {time}.
-    </p>
+    <div>
+      <p>
+        Bonjour, on est le {formattedDate} et il est {time}.
+      </p>
+    </div>
   );
+}
+
+function ActiveItemContent({ activeItem }) {
+  switch (activeItem) {
+    case 'Notes':
+      return <Notes />;
+    case 'Etudiants':
+      return <Etudiants />;
+    case 'Matières':
+      return <Matieres />;
+    case 'A propos':
+      return <APropos />;
+    default:
+      return <p>Sélectionnez un menu pour voir le contenu</p>;
+  }
 }
 
 function Footer({ Nom, Prenom }) {
@@ -115,10 +145,12 @@ const RandomItemDisplay = () => {
     <div className="container" style={{ padding: '20px', textAlign: 'center' }}>
       <h1 style={{ marginBottom: '20px' }}>Détail de l'élément</h1>
       <div className="item-card" style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px' }}>
+        <p><strong>ID Unique:</strong> {randomItem.unique_id}</p>
         <p><strong>Cours:</strong> {randomItem.course}</p>
         <p><strong>Prénom:</strong> {randomItem.student.firstname}</p>
         <p><strong>Nom:</strong> {randomItem.student.lastname}</p>
         <p><strong>ID Étudiant:</strong> {randomItem.student.id}</p>
+        <p><strong>Date:</strong> {randomItem.date}</p>
         <p><strong>Note:</strong> {randomItem.grade}</p>
       </div>
       <button
@@ -132,14 +164,18 @@ const RandomItemDisplay = () => {
 };
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [activeItem, setActiveItem] = useState('');
+
+  const menuItems = ['Notes', 'Etudiants', 'Matières', 'A propos'];
 
   return (
     <>
-      <Menu />
+      <Menu items={menuItems} activeItem={activeItem} onMenuClick={setActiveItem} />
       <div>
         <Header />
-        <MainContent />
+        <DateDisplay />
+        <ActiveItemContent activeItem={activeItem} />
+        <RandomItemDisplay />
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -150,7 +186,6 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      <RandomItemDisplay />
       <Footer Nom="Rzama" Prenom="Hamza" />
     </>
   );

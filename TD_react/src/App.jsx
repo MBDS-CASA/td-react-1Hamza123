@@ -3,6 +3,10 @@ import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
 import data from './data.json';
+import Notes from './components/Notes.jsx'; // Import du composant Notes
+import Etudiants from './components/Etudiants.jsx'; // Import du composant Etudiants
+import Matieres from './components/Matieres.jsx'; // Import du composant Matieres
+import APropos from './components/APropos.jsx'; // Import du composant APropos
 
 function Header() {
   return (
@@ -76,22 +80,6 @@ function Menu({ items, activeItem, onMenuClick }) {
   );
 }
 
-function Notes() {
-  return <div>Contenu du menu: Notes</div>;
-}
-
-function Etudiants() {
-  return <div>Contenu du menu: Etudiants</div>;
-}
-
-function Matieres() {
-  return <div>Contenu du menu: Matières</div>;
-}
-
-function APropos() {
-  return <div>Contenu du menu: À propos</div>;
-}
-
 function DateDisplay() {
   const currentDate = new Date();
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -107,14 +95,14 @@ function DateDisplay() {
   );
 }
 
-function ActiveItemContent({ activeItem }) {
+function ActiveItemContent({ activeItem, search, setSearch }) {
   switch (activeItem) {
     case 'Notes':
-      return <Notes />;
+      return <Notes search={search} setSearch={setSearch} />;  {/* Passage de search et setSearch */}
     case 'Etudiants':
-      return <Etudiants />;
+      return <Etudiants search={search} setSearch={setSearch} />;  {/* Passage de search et setSearch */}
     case 'Matières':
-      return <Matieres />;
+      return <Matieres search={search} setSearch={setSearch} />;  {/* Passage de search et setSearch */}
     case 'A propos':
       return <APropos />;
     default:
@@ -164,7 +152,8 @@ const RandomItemDisplay = () => {
 };
 
 function App() {
-  const [activeItem, setActiveItem] = useState('');
+  const [activeItem, setActiveItem] = useState('');  // Gère la section active
+  const [search, setSearch] = useState('');  // Gère la recherche
 
   const menuItems = ['Notes', 'Etudiants', 'Matières', 'A propos'];
 
@@ -174,7 +163,7 @@ function App() {
       <div>
         <Header />
         <DateDisplay />
-        <ActiveItemContent activeItem={activeItem} />
+        <ActiveItemContent activeItem={activeItem} search={search} setSearch={setSearch} /> {/* Passage de search et setSearch */}
         <RandomItemDisplay />
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
